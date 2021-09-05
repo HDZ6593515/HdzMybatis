@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.hdz.mybatis.test.mapper.UserMapper">
+    <select id="selectById" resultType="com.hdz.mybatis.test.entity.User">
+        select * from user where id = #{id}
+    </select>
+    <update id="updateById" >
+        update user set username = #{username} where id = #{id}
+    </update>
+    <select id="selectAll" resultType="com.hdz.mybatis.test.entity.User">
+        select * from user  where id = 2;
+    </select>
+</mapper>
