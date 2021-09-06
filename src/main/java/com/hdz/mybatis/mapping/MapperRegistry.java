@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @ClassName MapperRegistry
- * @Description TODO
+ * @Description mapper注册器
  * @Author 华达州
  * @Date 2021/8/19 16:46
  * @Version 1.0
@@ -29,6 +29,9 @@ public class MapperRegistry {
                 return;
             }
             this.knowMappers.put(type,new MapperProxyFactory<>(type));
+            
+            //下面是解析mapper接口，在解析xml文件是会解析mapper接口
+            //同样在解析mapper接口时也会解析xml文件，所以这里要规定mapper接口和xml配置文件需要在同一个包下面
             MapperAnnotationBuilder parse = new MapperAnnotationBuilder(this.configuration, type);
             parse.parse();
         }

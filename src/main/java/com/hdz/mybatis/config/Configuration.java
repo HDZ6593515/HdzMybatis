@@ -27,17 +27,40 @@ import java.util.*;
  **/
 public class Configuration {
 
+
+    /**
+     * 默认执行器类型
+     */
     protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE;
 
 
+    /**
+     * properties配置文件
+     */
     public static Properties configProp = new Properties();
 
+    /**
+     * mapper注册器
+     */
     protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
 
+    /**
+     * 每一个select|update|insert|delete标签都对应一个唯一的mappedStatement
+     * 
+     * mapperStatement映射，key--》全限定类名+方法名，value--》mappedStatement
+     */
     protected final Map<String, MappedStatement> mappedStatements = new HashMap<>();
 
+
+    /**
+     * 已加载的资源，标识是否已经解析xml文件或者mapper接口
+     */
     protected final Set<String> loadedResources = new HashSet<>();
-    
+
+
+    /**
+     * 拦截器链
+     */
     protected final InterceptorChain interceptorChain = new InterceptorChain();
     
 
@@ -46,6 +69,7 @@ public class Configuration {
         return getProperty(key,"mapperLocation");
     }
 
+    
     public static String getProperty(String key,String defaultValue) {
         return configProp.containsKey(key)?configProp.getProperty(key):defaultValue;
     }
@@ -98,21 +122,28 @@ public class Configuration {
             executor =  new SimpleExecutor(this);
             
         }
+        //代理所有插件，返回一个被所有插件拦截的代理对象
         executor = (Executor) interceptorChain.pluginAll(executor);
-        return new SimpleExecutor(this);
+        return executor;
     }
 
 
     public StatementHandler newStatementHandler(MappedStatement ms) {
-        return new SimpleStatementHandler(ms);
+        StatementHandler statementHandler  = new SimpleStatementHandler(ms);
+        statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+        return statementHandler;
     }
     
     public ParameterHandler newParameterHandler(Object parameter){
-        return new DefaultParameterHandler(parameter);
+        ParameterHandler parameterHandler = new DefaultParameterHandler(parameter);
+        parameterHandler = (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
+        return parameterHandler;
     }
     
     public ResultSetHandler newDefaultResultSetHandler(MappedStatement ms){
-        return new DefaultResultSetHandler(ms);
+        ResultSetHandler resultSetHandler = new DefaultResultSetHandler(ms);
+        resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
+        return resultSetHandler;
     }
 
 }

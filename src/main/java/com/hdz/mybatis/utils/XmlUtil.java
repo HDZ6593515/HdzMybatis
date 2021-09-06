@@ -28,10 +28,8 @@ public final class XmlUtil
      * readMapperXml
      * 
      * @param fileName
-     * @param
-     * @see 
+     * @param configuration
      */
-    @SuppressWarnings("rawtypes")
     public static void readMapperXml(File fileName, Configuration configuration)
     {
 

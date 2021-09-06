@@ -20,7 +20,7 @@ public class Page {
     public Page(long pageNum, long pageSize) {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
-        if(pageNum<0||pageSize<0){
+        if(pageNum<=0||pageSize<=0){
             this.offset = 0;
         }
         else{

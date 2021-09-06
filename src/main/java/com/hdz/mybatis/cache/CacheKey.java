@@ -5,17 +5,28 @@ import java.util.Objects;
 
 /**
  * @ClassName CacheKey
- * @Description TODO
+ * @Description 一级缓存key
  * @Author 华达州
  * @Date 2021/8/28 19:22
  * @Version 1.0
  **/
 public class CacheKey {
     
+    
+    /**
+     * statementId = 全限定类名+方法名
+     */
     private String statementId;
-    
+
+
+    /**
+     * sql语句
+     */
     private String sql;
-    
+
+    /**
+     * 参数列表
+     */
     private Object[] parameter;
 
     public String getStatementId() {

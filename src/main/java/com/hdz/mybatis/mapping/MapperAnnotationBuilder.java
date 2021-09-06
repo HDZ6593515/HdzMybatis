@@ -71,11 +71,20 @@ public class MapperAnnotationBuilder {
             if(url==null){
                 return;
             }
+            //解析同一包路径下的xml文件
             XmlUtil.readMapperXml(new File(url.getFile()),configuration);
         }
         
     }
 
+
+    /**
+     * 该方法把注解解析成一个个的MappedStatement对象
+     * 
+     * @author 华达州
+     * @date 2021/9/6 20:23
+     * @param method 
+     */
     public void parseStatement(Method method){
         try {
             Class<? extends Annotation> sqlCommandType = getSqlCommandType(method);

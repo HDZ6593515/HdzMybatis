@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  * @ClassName MapperProxy
- * @Description TODO
+ * @Description mapper接口代理类
  * @Author 华达州
  * @Date 2021/8/19 16:47
  * @Version 1.0

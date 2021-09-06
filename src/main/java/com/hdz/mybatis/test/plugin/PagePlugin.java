@@ -10,7 +10,7 @@ import com.hdz.mybatis.plugin.inter.Interceptor;
 import com.hdz.mybatis.test.pageHelp.Page;
 import com.hdz.mybatis.test.pageHelp.PageHelp;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * @ClassName PagePlugin
@@ -32,13 +32,11 @@ public class PagePlugin implements Interceptor {
             Object parameter = args[1];
             Page page = PageHelp.getPage();
             if(page!=null){
-                StringBuilder totalBuilder = new StringBuilder();
-                totalBuilder.append("select count(*) from (").append(ms.getSql()).append(")");
-                ms.setSql(totalBuilder.toString());
-                page.setTotal((long)executor.query(ms,parameter).get(0));
-                
+                List<Object> totalList = executor.query(ms, parameter);
+                page.setTotal(totalList.size());
+
                 StringBuilder sqlBuilder = new StringBuilder(ms.getSql());
-                sqlBuilder.append(" limit ").append(page.getOffset()).append(",").append(page.getPageNum());
+                sqlBuilder.append(" limit ").append(page.getOffset()).append(",").append(page.getPageSize());
                 ms.setSql(sqlBuilder.toString());
                 System.out.println(page);
                 return executor.query(ms,parameter);

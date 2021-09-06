@@ -12,14 +12,31 @@ import com.hdz.mybatis.config.Configuration;
  **/
 public class MappedStatement {
 
+
+    /**
+     * 名称空间
+     */
     private String namespace;
 
+    /**
+     * 对应标签的id属性，需要与mapper接口中的方法名一致
+     */
     private String sqlId;
 
+
+    /**
+     * sql语句
+     */
     private String sql;
 
+    /**
+     * 结果类型
+     */
     private String resultType;
 
+    /**
+     * sql命令类型
+     */
     private String sqlCommandType;
 
     private Configuration configuration;

@@ -11,6 +11,11 @@ import com.hdz.mybatis.config.Configuration;
  **/
 public interface SqlSessionFactory {
 
+    /**
+     * 公开会议
+     *
+     * @return {@link SqlSession}
+     */
     SqlSession openSession();
 
 }

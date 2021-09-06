@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * sql会话工厂建造者
+ *
  * @ClassName SqlSessionFactoryBuilder
  * @Description TODO
  * @Author 华达州
@@ -21,10 +23,13 @@ public class SqlSessionFactoryBuilder {
 
     public SqlSessionFactory build(InputStream inputStream){
         try {
+            //加载properties配置文件
             Configuration.configProp.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        //DefaultSqlSessionFactory的构造函数会加载配置文件，可以进去看看
         return new DefaultSqlSessionFactory(new Configuration());
     }
 }

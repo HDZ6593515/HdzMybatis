@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @ClassName DefaultSqlSession
- * @Description TODO
+ * @Description 默认的SqlSession
  * @Author 华达州
  * @Date 2021/8/19 11:54
  * @Version 1.0
@@ -25,6 +25,7 @@ public class DefaultSqlSession implements SqlSession {
 
     public DefaultSqlSession(Configuration configuration){
         this.configuration = configuration;
+        //创建一个执行器
         this.executor = this.configuration.newExecutor();
     }
 

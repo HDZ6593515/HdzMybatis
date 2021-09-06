@@ -2,7 +2,7 @@ package com.hdz.mybatis.common;
 
 /**
  * @EnumName Constant
- * @Description TODO
+ * @Description 字符串常量
  * @Author 华达州
  * @Date 2021/8/19 12:41
  * @Version 1.0

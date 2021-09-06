@@ -59,6 +59,13 @@ public class SimpleStatementHandler implements StatementHandler {
         return -1;
     }
 
+    /**
+     * 该方法把sql语句中的 #{xxx} 换成?
+     * @author 华达州
+     * @date 2021/9/6 20:15
+     * @param originSql 
+     * @return java.lang.String
+     */
     @Override
     public String parseSql(String originSql) {
         StringBuilder stringBuilder = new StringBuilder();

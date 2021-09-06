@@ -5,13 +5,17 @@ import java.util.Map;
 
 /**
  * @ClassName PerpetualCache
- * @Description TODO
+ * @Description 一级缓存实现类
  * @Author 华达州
  * @Date 2021/8/28 19:08
  * @Version 1.0
  **/
 public class PerpetualCache implements  Cache {
-    
+
+
+    /**
+     * 缓存放在一个hashMap里面
+     */
     private Map<Object,Object> cache = new HashMap<>();
 
 
