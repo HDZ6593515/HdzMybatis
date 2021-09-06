@@ -2,9 +2,6 @@ package com.hdz.mybatis.plugin.inter;
 
 import com.hdz.mybatis.plugin.Invocation;
 import com.hdz.mybatis.plugin.Plugin;
-
-import javax.jws.Oneway;
-
 /**
  * @InterfaceName Interceptor
  * @Description TODO
