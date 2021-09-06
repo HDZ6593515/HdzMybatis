@@ -5,6 +5,8 @@ import com.hdz.mybatis.session.inter.SqlSession;
 import com.hdz.mybatis.session.inter.SqlSessionFactory;
 import com.hdz.mybatis.test.entity.User;
 import com.hdz.mybatis.test.mapper.UserMapper;
+import com.hdz.mybatis.test.pageHelp.PageHelp;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,30 +18,48 @@ import java.util.List;
  * @Date 2021/8/19 17:15
  * @Version 1.0
  **/
-public class MyMain {
+public class MyTest {
+    
+    private SqlSessionFactory factory;
+    
+    private SqlSession sqlSession;
+    
+    
+    
+    @Before
+    public void before(){
+        factory = new SqlSessionFactoryBuilder().build("mybatis-config.properties");
+        sqlSession = factory.openSession();
+    }
+    
 
     @Test
     public void test01(){
-        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build("mybatis-config.properties");
-        SqlSession sqlSession = factory.openSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        System.out.println(mapper.selectById(1));
-        System.out.println(mapper.updateById("hahhaha", 1));
-        System.out.println(mapper.selectById(1));
-
-
         List<User> users = mapper.selectAll();
-        System.out.println(users);
+        for (User user : users) {
+            System.out.println(user);
+        }
+    }
+    
+    @Test
+    public void testCount(){
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        int i = mapper.selectCount();
+        System.out.println(i);
+    }
+    
+    @Test
+    public void testPlugin(){
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        PageHelp.startPage(0,3);
+        List<User> users = mapper.selectAll();
+        for (User user : users) {
+            System.out.println(user);
+        }
     }
     
     
-    public static void main(String[] args) {
-        
-
-
-
-
-    }
 
     public static String parseSql(String originSql) {
         StringBuilder stringBuilder = new StringBuilder();

@@ -30,6 +30,19 @@ public class DefaultResultSetHandler implements ResultSetHandler {
             return null;
         }
         try {
+            String returnType = mappedStatement.getResultType();
+            if(returnType.equals("int")||returnType.equals("long")||returnType.equals("java.lang.int")||returnType.equals("java.lang.long")){
+                Class<?> entityClass = Class.forName("java.lang.Integer");
+                int count = 0;
+                while (resultSet.next()){
+                    count = resultSet.getInt("count(*)");
+                }
+                E entity = (E) new Integer(count);
+                List<E> countList = new ArrayList<>();
+                countList.add((E) entity);
+                return countList;
+            }
+            
             List<E> resultList = new ArrayList<>();
             while(resultSet.next()){
                 Class<?> entityClass = Class.forName(mappedStatement.getResultType());

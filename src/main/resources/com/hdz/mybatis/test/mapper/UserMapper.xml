@@ -6,7 +6,5 @@
     <update id="updateById" >
         update user set username = #{username} where id = #{id}
     </update>
-    <select id="selectAll" resultType="com.hdz.mybatis.test.entity.User">
-        select * from user  where id = 2;
-    </select>
+    
 </mapper>

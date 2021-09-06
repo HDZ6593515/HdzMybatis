@@ -2,6 +2,7 @@ package com.hdz.mybatis.session;
 
 import com.hdz.mybatis.common.Constant;
 import com.hdz.mybatis.config.Configuration;
+import com.hdz.mybatis.plugin.inter.Interceptor;
 import com.hdz.mybatis.session.inter.SqlSession;
 import com.hdz.mybatis.session.inter.SqlSessionFactory;
 import com.hdz.mybatis.utils.XmlUtil;
@@ -24,6 +25,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     public DefaultSqlSessionFactory(Configuration configuration){
         this.configuration = configuration;
         loadMapperInfo(Configuration.getProperty(Constant.MAPPER_LOCATION).replaceAll("\\.","/"));
+        loadAllPlugins(Configuration.getProperty(Constant.PLUGIN_LOCATION).replaceAll("\\.","/"));
     }
 
     @Override
@@ -67,6 +69,30 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
         }
         else{
             XmlUtil.readMapperXml(mapperDir,this.configuration);
+        }
+    }
+    
+    
+    //加载插件
+    private void loadAllPlugins(String pluginLocation){
+        URL resource = DefaultSqlSessionFactory.class.getClassLoader().getResource(pluginLocation);
+        File pluginFile = new File(resource.getFile());
+        if(!pluginFile.isDirectory()){
+            pluginLocation = pluginLocation.replace("/",".");
+        }
+        else{
+            File[] files = pluginFile.listFiles();
+            for (File file : files) {
+                String clazz = pluginLocation.replace("/",".")+"."+file.getName().substring(0,file.getName().indexOf(".class"));
+                try {
+                    System.out.println(clazz);
+                    Class<?> aClass = Class.forName(clazz);
+                    Interceptor instance = (Interceptor)aClass.newInstance();
+                    configuration.addInterceptor(instance);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } 
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ import com.hdz.mybatis.executor.statement.SimpleStatementHandler;
 import com.hdz.mybatis.executor.statement.StatementHandler;
 import com.hdz.mybatis.mapping.MappedStatement;
 import com.hdz.mybatis.mapping.MapperRegistry;
+import com.hdz.mybatis.plugin.InterceptorChain;
+import com.hdz.mybatis.plugin.inter.Interceptor;
 import com.hdz.mybatis.session.inter.SqlSession;
 
 import java.sql.ResultSet;
@@ -36,6 +38,8 @@ public class Configuration {
 
     protected final Set<String> loadedResources = new HashSet<>();
     
+    protected final InterceptorChain interceptorChain = new InterceptorChain();
+    
 
 
     public static String getProperty(String key){
@@ -56,6 +60,10 @@ public class Configuration {
 
     public <T> void addMapper(Class<T> type){
         this.mapperRegistry.addMapper(type);
+    }
+    
+    public void addInterceptor(Interceptor interceptor){
+        interceptorChain.addInterceptor(interceptor);
     }
 
     public <T> boolean hasMapper(Class<T> type){
@@ -79,6 +87,7 @@ public class Configuration {
     }
 
     public Executor newExecutor(ExecutorType executorType){
+        Executor executor = null;
         if(ExecutorType.REUSE==executorType){
 
         }
@@ -86,8 +95,10 @@ public class Configuration {
 
         }
         else if(ExecutorType.SIMPLE==executorType){
-            return new SimpleExecutor(this);
+            executor =  new SimpleExecutor(this);
+            
         }
+        executor = (Executor) interceptorChain.pluginAll(executor);
         return new SimpleExecutor(this);
     }
 

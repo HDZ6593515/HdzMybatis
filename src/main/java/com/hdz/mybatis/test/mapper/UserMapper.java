@@ -25,4 +25,7 @@ public interface UserMapper {
     @Update("update user set name=#{name} where id=#{id}")
     int updateById(String name,int id);
     
+    @Select("select count(*) from user")
+    int selectCount();
+    
 }

@@ -19,6 +19,8 @@ public interface Constant {
     String DB_USERNAME_CONF = "db.username";
 
     String db_PASSWORD = "db.password";
+    
+    String PLUGIN_LOCATION = "mapper.plugin";
 
 
     /** UTF-8编码 */
